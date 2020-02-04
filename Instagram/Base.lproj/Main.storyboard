@@ -154,6 +154,65 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="853.79464285714278"/>
         </scene>
+        <!--Comment Input View Controller-->
+        <scene sceneID="Enm-3b-FXR">
+            <objects>
+                <viewController storyboardIdentifier="comment" id="jxB-2Q-Gih" customClass="CommentInputViewController" customModule="Instagram" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nMb-Jf-hCe">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6yK-uP-5kQ">
+                                <rect key="frame" x="20" y="324" width="374" height="200"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Unm-dv-eXn">
+                                        <rect key="frame" x="25" y="25" width="324" height="100"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="DG1-dK-lOc"/>
+                                        </constraints>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vWy-TW-Eu2">
+                                        <rect key="frame" x="249" y="140" width="100" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="NX1-94-Com"/>
+                                        </constraints>
+                                        <state key="normal" title="送信" backgroundImage="btn"/>
+                                        <connections>
+                                            <action selector="submitButton:" destination="jxB-2Q-Gih" eventType="touchUpInside" id="NXt-bz-qAI"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.6611589789390564" green="0.91360491514205933" blue="0.9137299656867981" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="vWy-TW-Eu2" firstAttribute="top" secondItem="Unm-dv-eXn" secondAttribute="bottom" constant="15" id="D3q-KT-f5k"/>
+                                    <constraint firstItem="Unm-dv-eXn" firstAttribute="top" secondItem="6yK-uP-5kQ" secondAttribute="top" constant="25" id="EbW-m1-zh8"/>
+                                    <constraint firstAttribute="trailing" secondItem="vWy-TW-Eu2" secondAttribute="trailing" constant="25" id="k4V-4T-QIu"/>
+                                    <constraint firstItem="Unm-dv-eXn" firstAttribute="leading" secondItem="6yK-uP-5kQ" secondAttribute="leading" constant="25" id="kC0-SD-Wlj"/>
+                                    <constraint firstAttribute="height" constant="200" id="ooR-8d-Euc"/>
+                                    <constraint firstAttribute="trailing" secondItem="Unm-dv-eXn" secondAttribute="trailing" constant="25" id="qji-EG-SfG"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="lhQ-Cg-T3v" firstAttribute="trailing" secondItem="6yK-uP-5kQ" secondAttribute="trailing" constant="20" id="UtU-tT-r7g"/>
+                            <constraint firstItem="6yK-uP-5kQ" firstAttribute="leading" secondItem="lhQ-Cg-T3v" secondAttribute="leading" constant="20" id="d71-bX-lfy"/>
+                            <constraint firstItem="6yK-uP-5kQ" firstAttribute="top" secondItem="lhQ-Cg-T3v" secondAttribute="top" constant="280" id="g2H-8t-6e5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lhQ-Cg-T3v"/>
+                    </view>
+                    <connections>
+                        <outlet property="inputTextView" destination="Unm-dv-eXn" id="fAz-SY-Vz6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MLX-Jk-Dgn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-605.79710144927537" y="1523.4375"/>
+        </scene>
         <!--Post View Controller-->
         <scene sceneID="nES-dH-cpS">
             <objects>
