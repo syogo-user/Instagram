@@ -49,10 +49,13 @@ class PostTableViewCell: UITableViewCell {
             let dateString = formatter.string(from :date)
             self.dateLabel.text = dateString
         }
-        if postData.commentUser != ""{
-            //コメントユーザとコメントの表示
-            self.commentLabel.text = "\(postData.commentUser!) → \(postData.comment!) "
-        }
+        
+//        if postData.commentUser != ""{
+//            //コメントユーザとコメントの表示
+//            self.commentLabel.text = "\(postData.commentUser) → \(postData.comment) "
+//        }else {
+//            self.commentLabel.text = ""
+//        }
         //いいね数の表示
         let likeNumber = postData.likes.count
         likeLabel.text = "\(likeNumber)"
