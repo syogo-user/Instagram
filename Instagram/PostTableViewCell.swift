@@ -18,7 +18,11 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var captionLabel: UILabel!
     @IBOutlet weak var commentButton: UIButton!
     @IBOutlet weak var commentLabel: UILabel!
+    @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var commentContentLabel: UILabel!
     
+    
+    var commentText : String = ""
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -50,11 +54,48 @@ class PostTableViewCell: UITableViewCell {
             self.dateLabel.text = dateString
         }
         
-//        if postData.commentUser != ""{
-//            //コメントユーザとコメントの表示
-//            self.commentLabel.text = "\(postData.commentUser) → \(postData.comment) "
-//        }else {
-//            self.commentLabel.text = ""
+
+        //コメントの表示
+        self.commentLabel.text = ""
+        self.commentContentLabel.text = ""
+        for comments in postData.comments {
+            let commentDic = comments as! [String:String] //ここが大事　Any型を[String:String]にキャストする
+            self.commentLabel.text! += "\(commentDic["userName"]!) \n"
+            self.commentContentLabel.text! += "\(commentDic["content"]!) \n"
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+//        self.commentLabel.text! = postData.comments["userName"] as! String
+//        self.commentContentLabel.text! = postData.comments["content"] as! String
+        
+        
+        
+//        for (key,value) in postData.comments {
+//            self.commentLabel.text! += "\ \n"
+////            if let comm  = comment {
+////                self.commentLabel.text!  +=  comm + "\n"
+////            }
+//        }
+       // self.commentLabel.text = commentText
+
+//        if let commentUser = postData.commentUser {
+//            if let comments = postData.comments   {
+//                if commentUser[0] != ""{
+//                    //コメントユーザとコメントの表示
+//                    self.commentLabel.text = "\(commentUser[0]) → \(comments[0]) "
+//                }else {
+//                    self.commentLabel.text = ""
+//                }
+//            }
 //        }
         //いいね数の表示
         let likeNumber = postData.likes.count

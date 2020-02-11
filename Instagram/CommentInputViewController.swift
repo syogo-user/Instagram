@@ -26,29 +26,64 @@ class CommentInputViewController: UIViewController {
     @IBAction func submitButton(_ sender: Any) {
         let postRef = Firestore.firestore().collection(Const.PostPath).document(documentId)
         let user = Auth.auth().currentUser
+        
+        if let userName = user?.displayName{
+            let comments = ["userName": userName,"content":self.inputTextView.text!]
 
-        
-        let data  = [
-            "comments" : FieldValue.arrayUnion([self.inputTextView.text!]),
-            "commentUsers":FieldValue.arrayUnion([user?.displayName]
-            )]
-        
-        
-        print("submitButton")
-        postRef.updateData(data)
-        //postRef.setData(["comments":data])
-        
+            
+            //コメントのデータを取得する
+            postRef.getDocument {
+                (document,error) in
+                if let error = error {
+                    print("DEBUG_PRINT: snapshotの取得が失敗しました。\(error)")
+                    return
+                } else {
+                    if let document  = document ,document.exists{
+                        var array  = document["comments"] as! [Any]
+                        array.append(comments)
+                        let data  = [
+                            "comments" : array
+                        ]
+                        print("submitButton")
+                        postRef.updateData(data)
+                    }
+                }
+                
+
+            }
+            
+            
+            
+
+         }
         //送信ボタン押下後はモーダル画面を閉じる
         self.dismiss(animated: true, completion: nil)
+    }
+
+                    
+
+
+                    
+               
+                
+                
+            
         
-//        //コメントのデータを取得する
-//        postRef.getDocuments() {
-//            (querySnapshot,error) in
-//            if let error = error {
-//                print("DEBUG_PRINT: snapshotの取得が失敗しました。\(error)")
-//                return
-//            } else {
-//                for document in querySnapshot!.documents {
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+//                for document in querySnapshot.documents {
 //
 //                    //ドキュメントのIDと同じコメントデータを取得する
 //                    if document.documentID == self.documentId {
@@ -64,8 +99,7 @@ class CommentInputViewController: UIViewController {
 //
 //                    }
 //                }
-//            }
-//        }
+
         
 
 //        let data = [
@@ -83,7 +117,7 @@ class CommentInputViewController: UIViewController {
         //let data = FieldValue.arrayUnion([myPostArray])
 
         
-    }
+    
     
     @objc func dismissView(){
         //画面を閉じる

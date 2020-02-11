@@ -42,6 +42,9 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         cell.likeButton.addTarget(self,action:#selector(handleButton(_ : forEvent:)),for: .touchUpInside)
         //セル内のコメントボタンのアクションをソースコードで設定する
         cell.commentButton.addTarget(self,action:#selector(handleCommentButton(_ : forEvent:)),for: .touchUpInside)
+        
+        //セル内のキャンセルボタンが押された時のアクションをソースコードで設定
+        cell.deleteButton.addTarget(self,action:#selector(handleDeleteButton(_ : forEvent:)),for: .touchUpInside)
         return cell
     }
     
@@ -133,5 +136,61 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         //documentのIDを渡す
         commentInputViewController.documentId = postData.id
         self.present(commentInputViewController,animated: true,completion: nil)
+    }
+    
+    //削除ボタン押下時
+    @objc func handleDeleteButton(_ sender: UIButton,forEvent event:UIEvent){
+        print("DEBUG_PRINT: 削除ボタンが押されました。")
+        //タップされたセルのインデックスを求める
+        let touch = event.allTouches?.first
+        //タッチした座標
+        let point = touch!.location(in: self.tableView)
+        //タッチした座標がtableViewのどのindexPath位置か
+        let indexPath = tableView.indexPathForRow(at: point)
+        //配列からタップされたインデックスのデータを取り出す
+        let postData = postArray[indexPath!.row]
+
+        
+        if Auth.auth().currentUser?.displayName == postData.name {
+            //投稿者と現在ログインしている人物が同じであった場合
+            
+            //確認メッセージ出力
+            let alert : UIAlertController = UIAlertController(title: "この投稿を削除してもよろしいですか？", message :nil, preferredStyle: UIAlertController.Style.alert)
+            
+            //OKボタン押下時
+            let defaultAction :UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {
+                (action :UIAlertAction! ) -> Void in
+                //以下OKボタンが押された時の動作
+                //・firestoreからドキュメントを削除
+                let postsRef = Firestore.firestore().collection(Const.PostPath).document(postData.id)
+                postsRef.delete()
+                
+                //・firestorageから写真を削除
+                let imageRef = Storage.storage().reference().child(Const.ImagePath).child(postData.id + ".jpg")
+                imageRef.delete{ error in
+                    if let error = error {
+                        print("DEBUG_PRINT: \(error)")
+                    } else {
+                        print("DEBUG_PRINT: 画像の削除が成功しました。")
+                    }
+                }
+            })
+            
+            //キャンセルボタン押下時 → 何もしない
+            let cancelAction : UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.default, handler:nil)
+            //UIAlertControllerにActionを追加
+            alert.addAction(cancelAction)
+            alert.addAction(defaultAction)
+            //Alertを表示
+            present(alert,animated: true)
+//            presentingViewController(alert,dismiss(animated: true, completion: nil))
+//            presentedViewController(alert,dismiss(animated: true, completion: nil))
+            
+        } else {
+            //投稿者と現在ログインしている人物が異なる場合
+            print("DEBUG_PRINT: 投稿者が異なります。")
+        }
+        
+        //コメントとコメント入力者を別の変数で持つ　例Any[””：””]
     }
 }
