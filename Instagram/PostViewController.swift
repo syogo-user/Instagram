@@ -44,6 +44,7 @@ class PostViewController: UIViewController {
             let name = Auth.auth().currentUser?.displayName
             
             let postDic = [
+                "myId":Auth.auth().currentUser?.uid,
                 "name":name!,
                 "caption":self.textField.text!,
                 "date":FieldValue.serverTimestamp(),

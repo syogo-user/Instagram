@@ -11,6 +11,7 @@ import Firebase
 
 class PostData: NSObject {
     var id:String
+    var myId :String?
     var name :String?
     var caption:String?
     var date: Date?
@@ -23,7 +24,7 @@ class PostData: NSObject {
         self.id = document.documentID
         
         let postDic = document.data()
-        
+        self.myId = postDic["myId"] as? String
         self.name = postDic["name"] as? String
         self.caption = postDic["caption"] as? String
         let timestamp = postDic["date"] as? Timestamp

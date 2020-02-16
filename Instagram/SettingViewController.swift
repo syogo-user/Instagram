@@ -9,17 +9,32 @@
 import UIKit
 import Firebase
 import SVProgressHUD
+import FirebaseUI
 
-class SettingViewController: UIViewController {
+class SettingViewController: UIViewController ,UIImagePickerControllerDelegate,UINavigationControllerDelegate  {
 
     @IBOutlet weak var displayNameTextField: UITextField!
+    @IBOutlet weak var myPicture: UIImageView!
+    //Firestoreのリスナー
+    var listener : ListenerRegistration!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         //表示名を取得してTextFieldに設定する
         let user = Auth.auth().currentUser
         if let user = user {
             displayNameTextField.text = user.displayName
+        
+
+            //画像の表示
+            //インジケーター表示
+            myPicture.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            let imageRef = Storage.storage().reference().child(Const.ImagePath).child(user.uid + ".jpg")
+            myPicture.sd_setImage(with:imageRef)
+            //画像を丸く表示
+            myPicture.layer.cornerRadius = 300 * 0.6
+            myPicture.clipsToBounds = true
         }
     }
         
@@ -69,15 +84,83 @@ class SettingViewController: UIViewController {
         tabBarController?.selectedIndex = 0
 
     }
-    
-    /*
-    // MARK: - Navigation
+    //MyPictureボタン押下時
+    @IBAction func myPictureButton(_ sender: Any) {
+        //ライブラリ（カメラロール）を指定してピッカーを開く
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            let pickerController = UIImagePickerController()
+            pickerController.delegate = self
+            pickerController.sourceType = .photoLibrary
+            self.present(pickerController,animated:true,completion: nil)
+        }
+        
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        
     }
-    */
+    //写真を撮影・選択した時に呼ばれるメソッド
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if info[.originalImage] != nil{
+            //撮影・選択された画像を取得する
+            let image = info[.originalImage] as! UIImage
+
+            
+            //画像をJPEG形式に変換する
+            let imageData = image.jpegData(compressionQuality: 0.75)
+            //画像と投稿データの保存場所を定義する
+            let postRef = Firestore.firestore().collection(Const.PostPath).document()
+            //ユーザの情報を取得
+            let user = Auth.auth().currentUser
+                if let user = user{//if文　データが入っている時だけtrue
+//                    let changeReauest = user.createProfileChangeRequest()
+//                    if let userName = user.displayName {
+//                    changeReauest.commitChanges{ error in //後置クロージャでメソッドの（）は省略されている
+//                        if let error  = error {
+//                            //プロフィールの更新でエラーが発生
+//                            print("DEBUG_PRINT:" + error.localizedDescription)
+//                            SVProgressHUD.showError(withStatus: "表示名の設定に失敗しました。")
+//                            return
+//                        }
+                        
+                        let imageRef = Storage.storage().reference().child(Const.ImagePath).child("\(user.uid)" + ".jpg")
+                        //HUDで投稿処理中の表示を開始
+                        let metadata = StorageMetadata()
+                        metadata.contentType = "image/jpeg"
+                        
+                        
+                        
+                        imageRef.putData(imageData!,metadata: metadata){ (metadata,error) in
+                            if error != nil {
+                                //画像のアップロード失敗
+                                print(error)
+                                SVProgressHUD.showError(withStatus: "画像のアップロードが失敗しました")
+                                return
+                            }
+                            //                    //FireStoreに投稿データを保存する
+                            //                    let name = Auth.auth().currentUser?.displayName
+                            //
+                            //                    let postDic = [
+                            //                        "name":name!,
+                            //                        "date":FieldValue.serverTimestamp(),
+                            //                        "comments":[] as [Any]
+                            //                    ] as [String:Any]
+                            //                    postRef.setData(postDic)
+                            //                    //HUDで投稿完了を表示する
+                            SVProgressHUD.showSuccess(withStatus: "投稿しました")
+                            //投稿処理が完了したので先頭画面に戻る
+                            //UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController?.dismiss(animated: true, completion: nil)
+                            
+                    }
+                }
+        }
+        
+    }
+    
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        //ImageSelectViewContoroller画面を閉じてタブ画面に戻る
+        //self.presentingViewController?.dismiss(animated: true, completion: nil)
+        
+    }
+    
 
 }
