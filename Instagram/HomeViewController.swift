@@ -12,7 +12,7 @@ import Firebase
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
-    //コメント追加
+    //コメント変更
     //投稿データを格納する配列
     var postArray:[PostData] = []
     //Firestoreのリスナー
