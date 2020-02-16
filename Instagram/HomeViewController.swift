@@ -12,7 +12,7 @@ import Firebase
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
-    
+    //コメント追加
     //投稿データを格納する配列
     var postArray:[PostData] = []
     //Firestoreのリスナー
@@ -136,6 +136,7 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         //documentのIDを渡す
         commentInputViewController.documentId = postData.id
         self.present(commentInputViewController,animated: true,completion: nil)
+        
     }
     
     //削除ボタン押下時
