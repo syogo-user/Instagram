@@ -27,10 +27,8 @@ class CommentInputViewController: UIViewController {
         let postRef = Firestore.firestore().collection(Const.PostPath).document(documentId)
         let user = Auth.auth().currentUser
         
-        if let userName = user?.displayName{
-            let comments = ["userName": userName,"content":self.inputTextView.text!]
-
-            
+        if let userName = user?.displayName ,let userId = user?.uid{
+            let comments = ["userName": userName,"content":self.inputTextView.text!,"commentUserId":userId]
             //コメントのデータを取得する
             postRef.getDocument {
                 (document,error) in
@@ -49,13 +47,8 @@ class CommentInputViewController: UIViewController {
                     }
                 }
                 
-
+                
             }
-
-            
-            
-            
-
          }
         //送信ボタン押下後はモーダル画面を閉じる
         self.dismiss(animated: true, completion: nil)

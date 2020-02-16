@@ -12,6 +12,7 @@ import Firebase
 class CommentData: NSObject {
     var commentUser :String?
     var commentContent :String?
+    var commentUserId : String?
     //var commentUserImage :String?
 
     init(_ postData:Any) {
@@ -21,6 +22,7 @@ class CommentData: NSObject {
         let comments = postData as! [String:String]
         self.commentUser = comments["userName"]
         self.commentContent = comments["content"]
+        self.commentUserId = comments["commentUserId"]
 //        self.commentUserImage = commentDic[""]
         
     }

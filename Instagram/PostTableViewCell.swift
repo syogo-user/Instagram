@@ -9,7 +9,7 @@
 import UIKit
 import FirebaseUI
 import Firebase
-class PostTableViewCell: UITableViewCell,UITableViewDataSource,UITableViewDelegate {
+class PostTableViewCell: UITableViewCell {
     
     //コメントデータを格納する配列
     var commentArray:[CommentData] = []
@@ -23,9 +23,13 @@ class PostTableViewCell: UITableViewCell,UITableViewDataSource,UITableViewDelega
     //@IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var deleteButton: UIButton!
     //@IBOutlet weak var commentContentLabel: UILabel!
-    @IBOutlet weak var commentTableView: UITableView!
+    //@IBOutlet weak var commentTableView: UITableView!
     
+    @IBOutlet weak var commentUserLabel: UILabel!
+    @IBOutlet weak var commentContentLabel: UILabel!
     @IBOutlet weak var myImageView: UIImageView!
+    @IBOutlet weak var commentUserImageView: UIImageView!
+    @IBOutlet weak var commentShow: UIButton!
     
     var commentText : String = ""
     
@@ -90,39 +94,6 @@ class PostTableViewCell: UITableViewCell,UITableViewDataSource,UITableViewDelega
             //myImageView.layer.cornerRadius = 30 * 0.4
             //myImageView.clipsToBounds = true
         }
-        
-        
-//        }
-        
-        
-        
-        
-        
-        
-        
-//        self.commentLabel.text! = postData.comments["userName"] as! String
-//        self.commentContentLabel.text! = postData.comments["content"] as! String
-        
-        
-        
-//        for (key,value) in postData.comments {
-//            self.commentLabel.text! += "\ \n"
-////            if let comm  = comment {
-////                self.commentLabel.text!  +=  comm + "\n"
-////            }
-//        }
-       // self.commentLabel.text = commentText
-
-//        if let commentUser = postData.commentUser {
-//            if let comments = postData.comments   {
-//                if commentUser[0] != ""{
-//                    //コメントユーザとコメントの表示
-//                    self.commentLabel.text = "\(commentUser[0]) → \(comments[0]) "
-//                }else {
-//                    self.commentLabel.text = ""
-//                }
-//            }
-//        }
         //いいね数の表示
         let likeNumber = postData.likes.count
         likeLabel.text = "\(likeNumber)"
@@ -137,33 +108,43 @@ class PostTableViewCell: UITableViewCell,UITableViewDataSource,UITableViewDelega
             self.likeButton.setImage(buttonImage,for:.normal)
         }
         
-        commentTableView.delegate = self
-        commentTableView.dataSource = self
+        //commentTableView.delegate = self
+        //commentTableView.dataSource = self
         //カスタムセルを登録する(Cellで登録)xib
-        let nib = UINib(nibName: "XibTableViewCell", bundle:nil)
-        commentTableView.register(nib, forCellReuseIdentifier: "Cell2")
+//        let nib = UINib(nibName: "XibTableViewCell", bundle:nil)
+//        commentTableView.register(nib, forCellReuseIdentifier: "Cell2")
         //postのコメントデータをcommentArrayに渡す  CommentDataにAny型が渡されるはず
         self.commentArray = postData.comments.map{ comments in return CommentData(comments)}
-
-
-        
-        
-        
+        if commentArray.count > 0{
+            //コメントの表示
+            commentUserLabel.text =  self.commentArray[0].commentUser
+            commentContentLabel.text = self.commentArray[0].commentContent
+            //コメント投稿者のユーザIDのプロフィール画像パス
+            let commentUserImagePath =  self.commentArray[0].commentUserId
+            if let commentUserImagePath = commentUserImagePath {
+                commentUserImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+                let imageRef2 = Storage.storage().reference().child(Const.ImagePath).child(commentUserImagePath + ".jpg")
+                commentUserImageView.sd_setImage(with:imageRef2)
+            }
+        }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return commentArray.count
-    }
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return commentArray.count
+//    }
+//
+//    func tableView(_ tableView:UITableView,cellForRowAt indexPath:IndexPath) ->UITableViewCell {
+//        //セルを取得してデータを設定する xib
+//        //let comment = commentArray[indexPath.row]
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath) as! XibTableViewCell
+//        //let cell = commentTableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath) as! XibTableViewCell
+//        cell.setCommentData(commentArray[indexPath.row] )
+//
+//        return cell
+//    }
     
-    func tableView(_ tableView:UITableView,cellForRowAt indexPath:IndexPath) ->UITableViewCell {
-        //セルを取得してデータを設定する xib
-        //let comment = commentArray[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath) as! XibTableViewCell
-        //let cell = commentTableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath) as! XibTableViewCell
-        cell.setCommentData(commentArray[indexPath.row] )
+    
+    
         
-        return cell
-    }
     
-        																	
 }

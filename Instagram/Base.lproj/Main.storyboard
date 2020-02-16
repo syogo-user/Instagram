@@ -295,6 +295,36 @@
             </objects>
             <point key="canvasLocation" x="138" y="1521"/>
         </scene>
+        <!--Comment Show View Controller-->
+        <scene sceneID="PmF-QA-nXG">
+            <objects>
+                <viewController storyboardIdentifier="commentShow" id="wKP-8U-4Ka" customClass="CommentShowViewController" customModule="Instagram" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2XM-PA-54X">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="mWQ-EO-iEj">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="NqM-NN-YQ1" firstAttribute="trailing" secondItem="mWQ-EO-iEj" secondAttribute="trailing" id="aDy-vL-Tb7"/>
+                            <constraint firstItem="mWQ-EO-iEj" firstAttribute="leading" secondItem="NqM-NN-YQ1" secondAttribute="leading" id="aFN-7v-Euc"/>
+                            <constraint firstItem="mWQ-EO-iEj" firstAttribute="top" secondItem="NqM-NN-YQ1" secondAttribute="top" id="el0-Iv-htN"/>
+                            <constraint firstItem="NqM-NN-YQ1" firstAttribute="bottom" secondItem="mWQ-EO-iEj" secondAttribute="bottom" id="kLV-2L-sT7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="NqM-NN-YQ1"/>
+                    </view>
+                    <connections>
+                        <outlet property="commentTableView" destination="mWQ-EO-iEj" id="uVJ-3v-fAE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vfP-w6-0rE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028" y="1519"/>
+        </scene>
         <!--Login View Controller-->
         <scene sceneID="vBn-AJ-Ues">
             <objects>

@@ -12,8 +12,8 @@ import Firebase
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
-    var a :Int = 0
-    //コメント変更
+
+
     //投稿データを格納する配列
     var postArray:[PostData] = []
     //Firestoreのリスナー
@@ -47,6 +47,9 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         
         //セル内のキャンセルボタンが押された時のアクションをソースコードで設定
         cell.deleteButton.addTarget(self,action:#selector(handleDeleteButton(_ : forEvent:)),for: .touchUpInside)
+        
+        //セル内の　すべてのコメントを表示ボタン　が押された時のアクションをソースコードで設定
+        cell.commentShow.addTarget(self,action:#selector(handleCommentShowButton(_ : forEvent:)),for: .touchUpInside)
         return cell
     }
     
@@ -198,5 +201,25 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         }
         
         //コメントとコメント入力者を別の変数で持つ　例Any[””：””]
+    }
+    
+    //コメントをすべて表示ボタン押下時
+    @objc func handleCommentShowButton(_ sender: UIButton,forEvent event:UIEvent){
+        print("DEBUG_PRINT: commentShowボタンがタップされました。")
+         //タップされたセルのインデックスを求める
+         let touch = event.allTouches?.first
+         //タッチした座標
+         let point = touch!.location(in:self.tableView)
+         //タッチした座標がtableViewのどのindexPath位置か
+         let indexPath = tableView.indexPathForRow(at: point)
+         
+         //配列からタップされたインデックスのデータを取り出す
+         let postData = postArray[indexPath!.row]
+         
+         //モーダルで画面遷移
+         let commeBntShowViewController = self.storyboard?.instantiateViewController(withIdentifier:"commentShow") as! CommentShowViewController
+         //commentsを渡す
+        commeBntShowViewController.commentDictionary = postData.comments as [CommentData]
+         self.present(commeBntShowViewController,animated: true,completion: nil)
     }
 }
