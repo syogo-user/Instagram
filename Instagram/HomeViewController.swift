@@ -12,6 +12,7 @@ import Firebase
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
+    var a :Int = 0
     //コメント変更
     //投稿データを格納する配列
     var postArray:[PostData] = []
