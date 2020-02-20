@@ -89,6 +89,9 @@ class PostTableViewCell: UITableViewCell {
             //インジケーター表示
             myImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
             let imageRef2 = Storage.storage().reference().child(Const.ImagePath).child(myId + ".jpg")
+            
+            SDImageCache.shared.removeImage(forKey: imageRef2.fullPath , withCompletion: nil)
+                        
             myImageView.sd_setImage(with: imageRef2)
             //画像を丸く表示
             //myImageView.layer.cornerRadius = 30 * 0.4
@@ -115,6 +118,7 @@ class PostTableViewCell: UITableViewCell {
 //        commentTableView.register(nib, forCellReuseIdentifier: "Cell2")
         //postのコメントデータをcommentArrayに渡す  CommentDataにAny型が渡されるはず
         self.commentArray = postData.comments.map{ comments in return CommentData(comments)}
+        
         if commentArray.count > 0{
             //コメントの表示
             commentUserLabel.text =  self.commentArray[0].commentUser

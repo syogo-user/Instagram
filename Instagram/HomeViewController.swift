@@ -12,7 +12,7 @@ import Firebase
 class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
-
+    let refreshCtl = UIRefreshControl()
 
     //投稿データを格納する配列
     var postArray:[PostData] = []
@@ -25,10 +25,18 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         tableView.delegate = self
         tableView.dataSource = self
         
+        tableView.refreshControl = refreshCtl
+        refreshCtl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         //カスタムセルを登録する(Cellで登録)xib
         let nib = UINib(nibName: "PostTableViewCell", bundle:nil)
         tableView.register(nib, forCellReuseIdentifier: "Cell")
         
+    }
+    //引っ張られるたびに呼ばれる
+    @objc func refresh(sender: UIRefreshControl) {
+        tableView.reloadData()
+        //通信終了後、endRefreshingを実行することでロードインジケータ（くるくる）が終了する
+        sender.endRefreshing()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -218,8 +226,10 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
          
          //モーダルで画面遷移
          let commeBntShowViewController = self.storyboard?.instantiateViewController(withIdentifier:"commentShow") as! CommentShowViewController
-         //commentsを渡す
-        commeBntShowViewController.commentDictionary = postData.comments as [CommentData]
+         //postData.commentsを渡して画面遷移
+        commeBntShowViewController.commentsArray = postData.comments.map{ comment in return CommentData(comment)}
          self.present(commeBntShowViewController,animated: true,completion: nil)
     }
+    
+
 }

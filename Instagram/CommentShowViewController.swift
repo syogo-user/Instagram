@@ -10,7 +10,7 @@ import UIKit
 
 class CommentShowViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
 
-    var commentDictionary :[CommentData] = []
+    var commentsArray :[CommentData] = []
     @IBOutlet weak var commentTableView: UITableView!
     
     override func viewDidLoad() {
@@ -20,19 +20,25 @@ class CommentShowViewController: UIViewController ,UITableViewDataSource,UITable
         
         //カスタムセルを登録する(Cellで登録)xib
         let nib = UINib(nibName: "XibTableViewCell", bundle:nil)
-        commentTableView.register(nib, forCellReuseIdentifier: "Cell")
+        commentTableView.register(nib, forCellReuseIdentifier: "Cell2")
         // Do any additional setup after loading the view.
     }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return commentDictionary.count
+        return commentsArray.count
     }
     func tableView(_ tableView:UITableView,cellForRowAt indexPath:IndexPath) ->UITableViewCell {
         //セルを取得してデータを設定する xib
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! XibTableViewCell
-        cell.setCommentData(commentDictionary[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath) as! XibTableViewCell
+        
+        cell.setCommentData(commentsArray[indexPath.row])
         return cell
     }
-
+    //高さ調整
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
     
     
 

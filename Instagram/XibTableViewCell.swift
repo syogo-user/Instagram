@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import Firebase
+import FirebaseUI
 class XibTableViewCell: UITableViewCell {
 
     @IBOutlet weak var myImage: UIImageView!
@@ -31,6 +32,13 @@ class XibTableViewCell: UITableViewCell {
         self.commentUser.text = commentData.commentUser
         self.commentContent.text = commentData.commentContent
         //コメント投稿者の写真表示
-//        self.myImage = 
+        let imageName = commentData.commentUserId
+        if let imageName = imageName{
+            //インジケーター表示
+            self.myImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            let imageRef = Storage.storage().reference().child(Const.ImagePath).child(imageName + ".jpg")
+            self.myImage.sd_setImage(with:imageRef)
+        }
+        
     }
 }
