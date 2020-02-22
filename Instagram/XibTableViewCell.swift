@@ -29,14 +29,20 @@ class XibTableViewCell: UITableViewCell {
     func setCommentData(_ commentData:CommentData){
         //コメントを画面に表示する
         
-        self.commentUser.text = commentData.commentUser
+        //コメント投稿者
+        //文字列を: で分割　imageNumber[0]コメントユーザ名  imageNumber[1] 画像番号
+        let imageNumber = commentData.commentUser!.components(separatedBy: ":")
+        self.commentUser.text = imageNumber[0]
+        
+        //コメント内容
         self.commentContent.text = commentData.commentContent
-        //コメント投稿者の写真表示
-        let imageName = commentData.commentUserId
-        if let imageName = imageName{
+        
+        //コメント投稿者の写真
+        let userId = commentData.commentUserId
+        if let userId = userId{
             //インジケーター表示
             self.myImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            let imageRef = Storage.storage().reference().child(Const.ImagePath).child(imageName + ".jpg")
+            let imageRef = Storage.storage().reference().child(Const.ImagePath).child(userId).child("\(imageNumber[1])" + ".jpg")
             self.myImage.sd_setImage(with:imageRef)
         }
         

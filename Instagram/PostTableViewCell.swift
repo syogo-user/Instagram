@@ -54,11 +54,13 @@ class PostTableViewCell: UITableViewCell {
         //画像の表示
         //インジケーター表示
         postImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        
         let imageRef = Storage.storage().reference().child(Const.ImagePath).child(postData.id + ".jpg")
         postImageView.sd_setImage(with:imageRef)
         
         //キャプションの表示
-        self.captionLabel.text = "\(postData.name!) : \(postData.caption!)"
+        let imageNumber = postData.name!.components(separatedBy: ":")
+        self.captionLabel.text = "\(imageNumber[0]) : \(postData.caption!)"
         //日時の表示
         self.dateLabel.text = ""
         if let date = postData.date {
@@ -82,20 +84,23 @@ class PostTableViewCell: UITableViewCell {
         
         
         //投稿者のアイコンを表示
-//       let user = Auth.auth().currentUser
-//        if let user = user{
-        
-        if let myId = postData.myId{
-            //インジケーター表示
-            myImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            let imageRef2 = Storage.storage().reference().child(Const.ImagePath).child(myId + ".jpg")
-            
-            SDImageCache.shared.removeImage(forKey: imageRef2.fullPath , withCompletion: nil)
-                        
-            myImageView.sd_setImage(with: imageRef2)
-            //画像を丸く表示
-            //myImageView.layer.cornerRadius = 30 * 0.4
-            //myImageView.clipsToBounds = true
+        let user = Auth.auth().currentUser
+        if let user  = user{
+            if let myId = postData.myId{
+                let  displayName : String = user.displayName! as String
+                //文字列を: で分割　imageNumber[1]
+                let imageNumber = displayName.components(separatedBy: ":")
+                //インジケーター表示
+                myImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+                let imageRef2 = Storage.storage().reference().child(Const.ImagePath).child(myId).child("\(imageNumber[1])" + ".jpg")
+                
+                SDImageCache.shared.removeImage(forKey: imageRef2.fullPath , withCompletion: nil)
+                
+                myImageView.sd_setImage(with: imageRef2)
+                //画像を丸く表示
+                //myImageView.layer.cornerRadius = 30 * 0.4
+                //myImageView.clipsToBounds = true
+            }
         }
         //いいね数の表示
         let likeNumber = postData.likes.count
@@ -121,13 +126,19 @@ class PostTableViewCell: UITableViewCell {
         
         if commentArray.count > 0{
             //コメントの表示
-            commentUserLabel.text =  self.commentArray[0].commentUser
+            let imageNumber = self.commentArray[0].commentUser!.components(separatedBy: ":")
+            commentUserLabel.text =  imageNumber[0]
+            print("temp:\(imageNumber[1])")
+            //コメント内容
             commentContentLabel.text = self.commentArray[0].commentContent
-            //コメント投稿者のユーザIDのプロフィール画像パス
-            let commentUserImagePath =  self.commentArray[0].commentUserId
-            if let commentUserImagePath = commentUserImagePath {
+            
+            //コメントユーザID
+            let commentUserId =  self.commentArray[0].commentUserId
+            
+            
+            if let commentUserId = commentUserId {
                 commentUserImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
-                let imageRef2 = Storage.storage().reference().child(Const.ImagePath).child(commentUserImagePath + ".jpg")
+                let imageRef2 = Storage.storage().reference().child(Const.ImagePath).child(commentUserId).child("\(imageNumber[1])" + ".jpg")
                 commentUserImageView.sd_setImage(with:imageRef2)
             }
         }

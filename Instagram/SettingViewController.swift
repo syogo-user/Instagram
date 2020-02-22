@@ -21,20 +21,30 @@ class SettingViewController: UIViewController ,UIImagePickerControllerDelegate,U
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //表示名を取得してTextFieldに設定する
+        
         let user = Auth.auth().currentUser
         if let user = user {
-            displayNameTextField.text = user.displayName
-        
 
+            
+            
             //画像の表示
             //インジケーター表示
             myPicture.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            let imageRef = Storage.storage().reference().child(Const.ImagePath).child(user.uid + ".jpg")
+            
+            let  displayName : String = user.displayName! as String
+            //文字列を: で分割　imageNumber[1]
+            let imageNumber = displayName.components(separatedBy: ":")
+            print("SettingViewController ViewWillAppear \(imageNumber[0])")
+            let imageRef = Storage.storage().reference().child(Const.ImagePath).child(user.uid).child("\(imageNumber[1])" + ".jpg")
             myPicture.sd_setImage(with:imageRef)
             //画像を丸く表示
             myPicture.layer.cornerRadius = 300 * 0.6
             myPicture.clipsToBounds = true
+            
+            
+            //表示名を取得してTextFieldに設定する
+            displayNameTextField.text = imageNumber[0]
+
         }
     }
         
@@ -52,8 +62,11 @@ class SettingViewController: UIViewController ,UIImagePickerControllerDelegate,U
             //表示名を設定する
             let user = Auth.auth().currentUser
             if let user = user {
+                //現在のdisplayNameから画像を番号を取得
+                let imageNumber = user.displayName!.components(separatedBy: ":")
+                //displayNameを変更
                 let changeRequest = user.createProfileChangeRequest()
-                changeRequest.displayName = displayName
+                changeRequest.displayName = displayName + ":" + imageNumber[1]
                 changeRequest.commitChanges{ error in
                     if let error = error {
                         SVProgressHUD.showError(withStatus: "表示名の変更に失敗しました。")
@@ -111,7 +124,24 @@ class SettingViewController: UIViewController ,UIImagePickerControllerDelegate,U
             //ユーザの情報を取得
             let user = Auth.auth().currentUser
                 if let user = user{//if文　データが入っている時だけtrue
-                        let imageRef2 = Storage.storage().reference().child(Const.ImagePath).child("\(user.uid)" + ".jpg")
+                    //動的な画像ファイル名を設定
+                    //var number = user.displayName?.suffix(user.displayName!.firstIndex(of:":"))
+                    let  displayName : String = user.displayName! as String
+                    var imageNumber = displayName.components(separatedBy: ":")
+                    imageNumber[1] = String(Int(imageNumber[1])! + 1)
+                    
+                    let changeRequest2 = user.createProfileChangeRequest()
+                    changeRequest2.displayName = imageNumber[0] + ":" + imageNumber[1]//文字連結 表示名:画像番号
+                    changeRequest2.commitChanges{ error in
+                        if let error = error {
+                            SVProgressHUD.showError(withStatus: "表示名の変更に失敗しました。")
+                            print("DEBUG_PRINT:" + error.localizedDescription)
+                            return
+                        }
+                    }
+                    
+                    let imageRef2 = Storage.storage().reference().child(Const.ImagePath).child(user.uid).child("\(imageNumber[1])" + ".jpg")
+                    print(user.displayName!)
                         //HUDで投稿処理中の表示を開始
                         let metadata = StorageMetadata()
                         metadata.contentType = "image/jpeg"

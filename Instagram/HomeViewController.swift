@@ -166,9 +166,8 @@ class HomeViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         let indexPath = tableView.indexPathForRow(at: point)
         //配列からタップされたインデックスのデータを取り出す
         let postData = postArray[indexPath!.row]
-
         
-        if Auth.auth().currentUser?.displayName == postData.name {
+        if  postData.myId == Auth.auth().currentUser?.uid {
             //投稿者と現在ログインしている人物が同じであった場合
             
             //確認メッセージ出力

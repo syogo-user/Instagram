@@ -72,7 +72,7 @@ class LoginViewController: UIViewController {
                 let user = Auth.auth().currentUser
                 if let user = user{//if文　データが入っている時だけtrue
                     let changeReauest = user.createProfileChangeRequest()
-                    changeReauest.displayName = displayName
+                    changeReauest.displayName = displayName + ":1"
                     changeReauest.commitChanges{ error in //後置クロージャでメソッドの（）は省略されている
                         if let error  = error {
                             //プロフィールの更新でエラーが発生

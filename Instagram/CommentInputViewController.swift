@@ -22,7 +22,7 @@ class CommentInputViewController: UIViewController {
         self.view.addGestureRecognizer(tapGesture)
     }
     
-    //コメントボタン押下時
+    //送信ボタン押下時
     @IBAction func submitButton(_ sender: Any) {
         let postRef = Firestore.firestore().collection(Const.PostPath).document(documentId)
         let user = Auth.auth().currentUser
