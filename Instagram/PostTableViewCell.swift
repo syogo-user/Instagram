@@ -87,9 +87,8 @@ class PostTableViewCell: UITableViewCell {
         let user = Auth.auth().currentUser
         if let user  = user{
             if let myId = postData.myId{
-                let  displayName : String = user.displayName! as String
                 //文字列を: で分割　imageNumber[1]
-                let imageNumber = displayName.components(separatedBy: ":")
+                let imageNumber = postData.name!.components(separatedBy: ":")
                 //インジケーター表示
                 myImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
                 let imageRef2 = Storage.storage().reference().child(Const.ImagePath).child(myId).child("\(imageNumber[1])" + ".jpg")

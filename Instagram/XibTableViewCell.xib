@@ -26,9 +26,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yr5-WJ-og1">
-                        <rect key="frame" x="20" y="20" width="70" height="65"/>
+                        <rect key="frame" x="10" y="10" width="80" height="85"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="70" id="rMu-df-Sw3"/>
+                            <constraint firstAttribute="width" constant="80" id="rMu-df-Sw3"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vGS-2U-cOs">
@@ -40,13 +40,13 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="vGS-2U-cOs" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="87V-XE-GH6"/>
-                    <constraint firstItem="Yr5-WJ-og1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="I2r-y9-c0K"/>
+                    <constraint firstItem="Yr5-WJ-og1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="I2r-y9-c0K"/>
                     <constraint firstItem="Ndt-i1-sHU" firstAttribute="leading" secondItem="Yr5-WJ-og1" secondAttribute="trailing" constant="20" id="OZZ-qC-BgP"/>
                     <constraint firstItem="Ndt-i1-sHU" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="Wyq-E8-IEu"/>
                     <constraint firstItem="vGS-2U-cOs" firstAttribute="leading" secondItem="Ndt-i1-sHU" secondAttribute="trailing" constant="10" id="XgF-3B-uOK"/>
-                    <constraint firstItem="Yr5-WJ-og1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Ytj-FT-838"/>
+                    <constraint firstItem="Yr5-WJ-og1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Ytj-FT-838"/>
                     <constraint firstAttribute="bottom" secondItem="vGS-2U-cOs" secondAttribute="bottom" constant="20" id="m6d-lb-eba"/>
-                    <constraint firstAttribute="bottom" secondItem="Yr5-WJ-og1" secondAttribute="bottom" constant="20" id="myd-bZ-tUj"/>
+                    <constraint firstAttribute="bottom" secondItem="Yr5-WJ-og1" secondAttribute="bottom" constant="10" id="myd-bZ-tUj"/>
                     <constraint firstAttribute="trailing" secondItem="vGS-2U-cOs" secondAttribute="trailing" constant="10" id="vc0-JC-D72"/>
                     <constraint firstAttribute="bottom" secondItem="Ndt-i1-sHU" secondAttribute="bottom" constant="20" id="yPo-kE-cgy"/>
                 </constraints>
