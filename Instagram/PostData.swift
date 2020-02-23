@@ -32,6 +32,7 @@ class PostData: NSObject {
         
         
         if let comments = postDic["comments"] as? [Any] {
+            self.comments = []//
             self.comments = comments
         }
 

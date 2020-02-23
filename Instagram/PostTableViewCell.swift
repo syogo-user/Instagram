@@ -37,7 +37,7 @@ class PostTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         
 
         // Initialization code
@@ -122,14 +122,19 @@ class PostTableViewCell: UITableViewCell {
 //        let nib = UINib(nibName: "XibTableViewCell", bundle:nil)
 //        commentTableView.register(nib, forCellReuseIdentifier: "Cell2")
         //postのコメントデータをcommentArrayに渡す  CommentDataにAny型が渡されるはず
+        self.commentArray = []
         self.commentArray = postData.comments.map{ comments in return CommentData(comments)}
+        commentContentLabel.text = ""
+        commentUserLabel.text = ""
+        commentUserImageView.image = UIImage()
         
-        if commentArray.count > 0{
+        if self.commentArray.count > 0{
             //コメントの表示
             let imageNumber = self.commentArray[0].commentUser!.components(separatedBy: ":")
             commentUserLabel.text =  imageNumber[0]
             print("temp:\(imageNumber[1])")
             //コメント内容
+            
             commentContentLabel.text = self.commentArray[0].commentContent
             
             //コメントユーザID
